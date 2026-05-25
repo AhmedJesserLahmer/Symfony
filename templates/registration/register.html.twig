@@ -5,7 +5,10 @@
 {% block body %}
 <div class="auth-wrapper">
     <div class="register-card">
-        <h1>Create Account</h1>
+        <div class="login-header">
+            <h1>Create Account</h1>
+            <p class="login-subtitle">Join the sneaker community</p>
+        </div>
 
         {{ form_errors(registrationForm) }}
 
@@ -16,8 +19,12 @@
             }) }}
             {{ form_row(registrationForm.agreeTerms) }}
 
-            <button type="submit" class="btn btn-primary btn-lg">Register</button>
+            <button type="submit" class="buttonPrimary">Register</button>
         {{ form_end(registrationForm) }}
+
+        <div class="login-footer">
+            <p>Already have an account? <a href="{{ path('app_login') }}">Sign in</a></p>
+        </div>
     </div>
 </div>
 {% endblock %}

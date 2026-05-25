@@ -20,6 +20,14 @@
         <div class="navItem navCart">
             <a href="{{ path('app_cart_index') }}" class="buttonOutline">Cart</a>
         </div>
+        <div class="navItem navAuth">
+            {% if app.user %}
+                <a href="{{ path('app_account') }}" class="buttonOutline">Account</a>
+                <a href="{{ path('app_logout') }}" class="buttonPrimary">Logout</a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="buttonOutline">Login</a>
+            {% endif %}
+        </div>
     </div>
     <div class="navBottom">
         <h3 class="menuItem">AIR FORCE</h3>

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Account — Sneakers Store{% endblock %}
+
+{% block body %}
+<nav id="nav">
+    <div class="navTop">
+        <div class="navItem">
+            <a href="{{ path('app_products') }}">
+                <img src="{{ asset('images/sneakers.png') }}" alt="Sneakers logo">
+            </a>
+        </div>
+        <div class="navItem">
+            <div class="search">
+                <input type="text" placeholder="Search..." class="searchInput" aria-label="Search">
+                <img src="{{ asset('images/search.png') }}" width="20" height="20" alt="" class="searchIcon">
+            </div>
+        </div>
+        <div class="navItem">
+            <span class="limitedOffer">Limited Offer!</span>
+        </div>
+        <div class="navItem navCart">
+            <a href="{{ path('app_cart_index') }}" class="buttonOutline">Cart</a>
+        </div>
+        <div class="navItem navAuth">
+            <a href="{{ path('app_logout') }}" class="buttonPrimary">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="auth-wrapper">
+    <div class="account-card">
+        <div class="account-header">
+            <h1>My Account</h1>
+            <p>Manage your profile and preferences.</p>
+        </div>
+        <div class="account-details">
+            <div class="account-row">
+                <span class="account-label">Email</span>
+                <span class="account-value">{{ app.user.userIdentifier }}</span>
+            </div>
+            <div class="account-row">
+                <span class="account-label">Status</span>
+                <span class="account-value">Active</span>
+            </div>
+        </div>
+        <div class="account-actions">
+            <a href="{{ path('app_products') }}" class="buttonOutline">Browse products</a>
+            <a href="{{ path('app_logout') }}" class="buttonPrimary">Sign out</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
