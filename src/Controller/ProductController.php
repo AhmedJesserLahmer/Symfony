@@ -12,6 +12,12 @@ use App\Entity\Product;
 
 class ProductController extends AbstractController
 {
+    #[Route('/', name: 'app_home')]
+    public function home(): Response
+    {
+        return $this->redirectToRoute('app_products');
+    }
+
     #[Route('/products', name: 'app_products')]
     public function index(Request $request, ProductRepository $repository, CategoryRepository $categoryRepository): Response
     {

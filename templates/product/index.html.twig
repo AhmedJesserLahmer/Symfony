@@ -1,56 +1,282 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="mb-0">Our Products</h1>
-        <a href="{{ path('app_cart_index') }}" class="btn btn-outline-secondary">Cart</a>
-    </div>
-
-    <form method="get" class="mb-4">
-        <div class="row g-2 align-items-end">
-            <div class="col-sm-6 col-md-4">
-                <label class="form-label" for="category">Category</label>
-                <select id="category" name="category" class="form-select" onchange="this.form.submit()">
-                    <option value="">All categories</option>
-                    {% for category in categories %}
-                        <option value="{{ category.id }}" {% if selectedCategory and selectedCategory.id == category.id %}selected{% endif %}>
-                            {{ category.name }}
-                        </option>
-                    {% endfor %}
-                </select>
+<nav id="nav">
+    <div class="navTop">
+        <div class="navItem">
+            <a href="{{ path('app_products') }}">
+                <img src="{{ asset('images/sneakers.png') }}" alt="Sneakers logo">
+            </a>
+        </div>
+        <div class="navItem">
+            <div class="search">
+                <input type="text" placeholder="Search..." class="searchInput" aria-label="Search">
+                <img src="{{ asset('images/search.png') }}" width="20" height="20" alt="" class="searchIcon">
             </div>
         </div>
-    </form>
-    <div class="row">
+        <div class="navItem">
+            <span class="limitedOffer">Limited Offer!</span>
+        </div>
+        <div class="navItem navCart">
+            <a href="{{ path('app_cart_index') }}" class="buttonOutline">Cart</a>
+        </div>
+    </div>
+    <div class="navBottom">
+        <h3 class="menuItem">AIR FORCE</h3>
+        <h3 class="menuItem">JORDAN</h3>
+        <h3 class="menuItem">BLAZER</h3>
+        <h3 class="menuItem">CRATER</h3>
+        <h3 class="menuItem">HIPPIE</h3>
+    </div>
+</nav>
+
+<div class="slider">
+    <div class="sliderWrapper">
+        <div class="sliderItem">
+            <img src="{{ asset('images/air.png') }}" alt="Air Force" class="sliderImg">
+            <div class="sliderBg"></div>
+            <h1 class="sliderTitle">AIR FORCE<br>NEW<br>SEASON</h1>
+            <h2 class="sliderPrice">$175</h2>
+            <a href="#product">
+                <button class="buyButton" type="button">BUY NOW!</button>
+            </a>
+        </div>
+        <div class="sliderItem">
+            <img src="{{ asset('images/jordan.png') }}" alt="Air Jordan" class="sliderImg">
+            <div class="sliderBg"></div>
+            <h1 class="sliderTitle">AIR JORDAN<br>NEW<br>SEASON</h1>
+            <h2 class="sliderPrice">$149</h2>
+            <a href="#product">
+                <button class="buyButton" type="button">BUY NOW!</button>
+            </a>
+        </div>
+        <div class="sliderItem">
+            <img src="{{ asset('images/blazer.png') }}" alt="Blazer" class="sliderImg">
+            <div class="sliderBg"></div>
+            <h1 class="sliderTitle">BLAZER<br>NEW<br>SEASON</h1>
+            <h2 class="sliderPrice">$119</h2>
+            <a href="#product">
+                <button class="buyButton" type="button">BUY NOW!</button>
+            </a>
+        </div>
+        <div class="sliderItem">
+            <img src="{{ asset('images/crater.png') }}" alt="Crater" class="sliderImg">
+            <div class="sliderBg"></div>
+            <h1 class="sliderTitle">CRATER<br>NEW<br>SEASON</h1>
+            <h2 class="sliderPrice">$109</h2>
+            <a href="#product">
+                <button class="buyButton" type="button">BUY NOW!</button>
+            </a>
+        </div>
+        <div class="sliderItem">
+            <img src="{{ asset('images/hippie.png') }}" alt="Hippie" class="sliderImg">
+            <div class="sliderBg"></div>
+            <h1 class="sliderTitle">HIPPIE<br>NEW<br>SEASON</h1>
+            <h2 class="sliderPrice">$200</h2>
+            <a href="#product">
+                <button class="buyButton" type="button">BUY NOW!</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="features">
+    <div class="feature">
+        <img src="{{ asset('images/shipping.png') }}" alt="" class="featureIcon">
+        <span class="featureTitle">FREE SHIPPING</span>
+        <span class="featureDesc">Free worldwide shipping on all orders.</span>
+    </div>
+    <div class="feature">
+        <img class="featureIcon" src="{{ asset('images/return.png') }}" alt="">
+        <span class="featureTitle">30 DAYS RETURN</span>
+        <span class="featureDesc">No question return and easy refund in 14 days.</span>
+    </div>
+    <div class="feature">
+        <img class="featureIcon" src="{{ asset('images/gift.png') }}" alt="">
+        <span class="featureTitle">GIFT CARDS</span>
+        <span class="featureDesc">Buy gift cards and use coupon codes easily.</span>
+    </div>
+    <div class="feature">
+        <img class="featureIcon" src="{{ asset('images/contact.png') }}" alt="">
+        <span class="featureTitle">CONTACT US!</span>
+        <span class="featureDesc">Keep in touch via email and support system.</span>
+    </div>
+</div>
+
+<section class="catalog" id="catalog">
+    <div class="catalogHeader">
+        <h2 class="catalogTitle">Shop All</h2>
+        <form method="get" class="catalogFilter">
+            <label class="catalogLabel" for="category">Category</label>
+            <select id="category" name="category" class="catalogSelect" onchange="this.form.submit()">
+                <option value="" {% if not selectedCategory %}selected{% endif %}>All categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if selectedCategory and selectedCategory.id == category.id %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div class="catalogGrid">
         {% for product in products %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                {% if product.imageUrl %}
-                    <img src="{{ asset(product.imageUrl) }}" class="card-img-top" alt="{{ product.name }}">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    {% if product.category %}
-                        <p class="text-muted mb-1">{{ product.category.name }}</p>
+            <article class="productCard">
+                {% set imagePath = product.imageUrl ? product.imageUrl|trim('/') : null %}
+                <a class="productMedia" href="{{ path('app_product_show', {id: product.id}) }}">
+                    {% if imagePath %}
+                        <img src="{{ asset(imagePath) }}" alt="{{ product.name }}">
+                    {% else %}
+                        <span class="catalogEmpty">No image</span>
                     {% endif %}
-                    <p class="card-text text-muted">{{ product.description|slice(0, 60) }}...</p>
-                    <p class="fw-bold text-success">${{ product.price }}</p>
-                </div>
-                <div class="card-footer">
-                    <div class="d-grid gap-2">
-                        <a href="{{ path('app_product_show', {id: product.id}) }}" class="btn btn-primary">View Product</a>
+                </a>
+                <div class="productInfo">
+                    <h3 class="productName">{{ product.name }}</h3>
+                    {% if product.category %}
+                        <span class="productCategory">{{ product.category.name }}</span>
+                    {% endif %}
+                    <p class="productCopy">{{ product.description|slice(0, 90) }}...</p>
+                    <div class="productMeta">
+                        <span class="productCardPrice">${{ product.price }}</span>
+                    </div>
+                    <div class="productActions">
+                        <a href="{{ path('app_product_show', {id: product.id}) }}" class="buttonOutline">View</a>
                         <form method="post" action="{{ path('app_cart_add', {id: product.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ product.id) }}">
-                            <button type="submit" class="btn btn-success">Add to cart</button>
+                            <button type="submit" class="buttonPrimary">Add to cart</button>
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
+            </article>
+        {% else %}
+            <p class="catalogEmpty">No products found.</p>
         {% endfor %}
     </div>
+</section>
+
+<div class="product" id="product">
+    <img src="{{ asset('images/air.png') }}" alt="Air Force" class="productImg">
+    <div class="productDetails">
+        <h1 class="productTitle">AIR FORCE</h1>
+        <h2 class="productPrice">$199</h2>
+        <p class="productDesc">Classic basketball silhouette reimagined for modern streets.</p>
+        <div class="colors">
+            <div class="color"></div>
+            <div class="color"></div>
+        </div>
+        <div class="sizes">
+            <div class="size">42</div>
+            <div class="size">43</div>
+            <div class="size">44</div>
+        </div>
+        <button class="productButton" type="button">BUY NOW!</button>
+    </div>
+    <div class="payment">
+        <h1 class="payTitle">Personal Information</h1>
+        <label>Name and Surname</label>
+        <input type="text" placeholder="John Doe" class="payInput">
+        <label>Phone Number</label>
+        <input type="text" placeholder="+1 234 5678" class="payInput">
+        <label>Address</label>
+        <input type="text" placeholder="Elton St 21 22-145" class="payInput">
+        <h1 class="payTitle">Card Information</h1>
+        <div class="cardIcons">
+            <img src="{{ asset('images/visa.png') }}" width="40" alt="Visa" class="cardIcon">
+            <img src="{{ asset('images/master.png') }}" width="40" alt="Mastercard" class="cardIcon">
+        </div>
+        <input type="password" class="payInput" placeholder="Card Number">
+        <div class="cardInfo">
+            <input type="text" placeholder="mm" class="payInput sm">
+            <input type="text" placeholder="yyyy" class="payInput sm">
+            <input type="text" placeholder="cvv" class="payInput sm">
+        </div>
+        <button class="payButton" type="button">Checkout!</button>
+        <span class="close">X</span>
+    </div>
 </div>
+
+<div class="gallery">
+    <div class="galleryItem">
+        <h1 class="galleryTitle">Be Yourself!</h1>
+        <img src="https://images.pexels.com/photos/9295809/pexels-photo-9295809.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="galleryImg">
+    </div>
+    <div class="galleryItem">
+        <img src="https://images.pexels.com/photos/1040427/pexels-photo-1040427.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="galleryImg">
+        <h1 class="galleryTitle">This is the First Day of Your New Life</h1>
+    </div>
+    <div class="galleryItem">
+        <h1 class="galleryTitle">Just Do it!</h1>
+        <img src="https://images.pexels.com/photos/7856965/pexels-photo-7856965.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="galleryImg">
+    </div>
+</div>
+
+<div class="newSeason">
+    <div class="nsItem">
+        <img src="https://images.pexels.com/photos/4753986/pexels-photo-4753986.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="nsImg">
+    </div>
+    <div class="nsItem">
+        <h3 class="nsTitleSm">WINTER NEW ARRIVALS</h3>
+        <h1 class="nsTitle">New Season</h1>
+        <h1 class="nsTitle">New Collection</h1>
+        <a href="#nav">
+            <button class="nsButton" type="button">CHOOSE YOUR STYLE</button>
+        </a>
+    </div>
+    <div class="nsItem">
+        <img src="https://images.pexels.com/photos/7856965/pexels-photo-7856965.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="nsImg">
+    </div>
+</div>
+
+<footer>
+    <div class="footerLeft">
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">About Us</h1>
+            <ul class="fList">
+                <li class="fListItem">Company</li>
+                <li class="fListItem">Contact</li>
+                <li class="fListItem">Careers</li>
+                <li class="fListItem">Affiliates</li>
+                <li class="fListItem">Stores</li>
+            </ul>
+        </div>
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">Useful Links</h1>
+            <ul class="fList">
+                <li class="fListItem">Support</li>
+                <li class="fListItem">Refund</li>
+                <li class="fListItem">FAQ</li>
+                <li class="fListItem">Feedback</li>
+                <li class="fListItem">Stories</li>
+            </ul>
+        </div>
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">Products</h1>
+            <ul class="fList">
+                <li class="fListItem">Air Force</li>
+                <li class="fListItem">Air Jordan</li>
+                <li class="fListItem">Blazer</li>
+                <li class="fListItem">Crater</li>
+                <li class="fListItem">Hippie</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footerRight">
+        <div class="footerRightMenu">
+            <h1 class="fMenuTitle">Subscribe to our newsletter</h1>
+            <div class="fMail">
+                <input type="text" placeholder="your@email.com" class="fInput">
+                <button class="fButton" type="button">Join!</button>
+            </div>
+        </div>
+        <div class="footerRightMenu">
+            <h1 class="fMenuTitle">Follow Us</h1>
+            <div class="fIcons">
+                <img src="{{ asset('images/facebook.png') }}" alt="Facebook" class="fIcon">
+                <img src="{{ asset('images/twitter.png') }}" alt="Twitter" class="fIcon">
+                <img src="{{ asset('images/instagram.png') }}" alt="Instagram" class="fIcon">
+                <img src="{{ asset('images/whatsapp.png') }}" alt="WhatsApp" class="fIcon">
+            </div>
+        </div>
+    </div>
+</footer>
 {% endblock %}

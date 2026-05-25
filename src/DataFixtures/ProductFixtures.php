@@ -36,21 +36,21 @@ class ProductFixtures extends Fixture
         $manager->persist($product1);
 
         $product2 = new Product();
-        $product2->setName('Adidas Hoodie');
-        $product2->setDescription('Warm and stylish hoodie for everyday wear.');
-        $product2->setPrice(59.99);
-        $product2->setStock(30);
-        $product2->setImageUrl('/images/adidas.avif');
-        $product2->setCategory($clothing);
+        $product2->setName('Limited SB High');
+        $product2->setDescription('Limited edition high-top with vibrant colorwork.');
+        $product2->setPrice(159.99);
+        $product2->setStock(18);
+        $product2->setImageUrl('/images/sneakerslimited.png');
+        $product2->setCategory($shoes);
         $manager->persist($product2);
 
         $product3 = new Product();
-        $product3->setName('Sony Headphones');
-        $product3->setDescription('Noise cancelling wireless headphones.');
-        $product3->setPrice(199.99);
-        $product3->setStock(15);
-        $product3->setImageUrl('/images/sony.webp');
-        $product3->setCategory($electronics);
+        $product3->setName('Limited SB Duo');
+        $product3->setDescription('Artist-inspired pair for collectors and daily wear.');
+        $product3->setPrice(179.99);
+        $product3->setStock(12);
+        $product3->setImageUrl('/images/sneakerslimited2.png');
+        $product3->setCategory($shoes);
         $manager->persist($product3);
 
         $manager->flush();

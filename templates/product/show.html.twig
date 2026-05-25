@@ -1,38 +1,117 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="{{ path('app_products') }}" class="btn btn-outline-secondary">Back to products</a>
-        <a href="{{ path('app_cart_index') }}" class="btn btn-outline-secondary">Cart</a>
+<nav id="nav">
+    <div class="navTop">
+        <div class="navItem">
+            <a href="{{ path('app_products') }}">
+                <img src="{{ asset('images/sneakers.png') }}" alt="Sneakers logo">
+            </a>
+        </div>
+        <div class="navItem">
+            <div class="search">
+                <input type="text" placeholder="Search..." class="searchInput" aria-label="Search">
+                <img src="{{ asset('images/search.png') }}" width="20" height="20" alt="" class="searchIcon">
+            </div>
+        </div>
+        <div class="navItem">
+            <span class="limitedOffer">Limited Offer!</span>
+        </div>
+        <div class="navItem navCart">
+            <a href="{{ path('app_cart_index') }}" class="buttonOutline">Cart</a>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            {% if product.imageUrl %}
-                <img src="{{ asset(product.imageUrl) }}" alt="{{ product.name }}">
+    <div class="navBottom">
+        <h3 class="menuItem">AIR FORCE</h3>
+        <h3 class="menuItem">JORDAN</h3>
+        <h3 class="menuItem">BLAZER</h3>
+        <h3 class="menuItem">CRATER</h3>
+        <h3 class="menuItem">HIPPIE</h3>
+    </div>
+</nav>
+
+<div class="productPage">
+    <div class="productPageMedia">
+        {% set imagePath = product.imageUrl ? product.imageUrl|trim('/') : null %}
+        {% if imagePath %}
+            <img src="{{ asset(imagePath) }}" alt="{{ product.name }}">
+        {% endif %}
+    </div>
+    <div class="productPageDetails">
+        <a href="{{ path('app_products') }}" class="productPageBack">Back to products</a>
+        <h1 class="productPageTitle">{{ product.name }}</h1>
+        {% if product.category %}
+            <div class="productPageCategory">Category: {{ product.category.name }}</div>
+        {% endif %}
+        <p class="productPageDesc">{{ product.description }}</p>
+        <div class="productPagePrice">${{ product.price }}</div>
+        <div class="productPageStock">
+            {% if product.stock > 0 %}
+                In stock ({{ product.stock }} left)
+            {% else %}
+                Out of stock
             {% endif %}
         </div>
-        <div class="col-md-6">
-            <h1>{{ product.name }}</h1>
-            {% if product.category %}
-                <p class="text-muted mb-1">Category: {{ product.category.name }}</p>
-            {% endif %}
-            <p class="text-muted">{{ product.description }}</p>
-            <h3 class="text-success">${{ product.price }}</h3>
-            <p>
-                {% if product.stock > 0 %}
-                    <span class="badge bg-success">In Stock ({{ product.stock }} left)</span>
-                {% else %}
-                    <span class="badge bg-danger">Out of Stock</span>
-                {% endif %}
-            </p>
-            <form method="post" action="{{ path('app_cart_add', {id: product.id}) }}" class="mt-3">
+        <div class="productPageActions">
+            <form method="post" action="{{ path('app_cart_add', {id: product.id}) }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ product.id) }}">
-                <button type="submit" class="btn btn-success">Add to cart</button>
+                <button type="submit" class="buttonPrimary">Add to cart</button>
             </form>
+            <a href="{{ path('app_cart_index') }}" class="buttonOutline">View cart</a>
         </div>
     </div>
 </div>
+
+<footer>
+    <div class="footerLeft">
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">About Us</h1>
+            <ul class="fList">
+                <li class="fListItem">Company</li>
+                <li class="fListItem">Contact</li>
+                <li class="fListItem">Careers</li>
+                <li class="fListItem">Affiliates</li>
+                <li class="fListItem">Stores</li>
+            </ul>
+        </div>
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">Useful Links</h1>
+            <ul class="fList">
+                <li class="fListItem">Support</li>
+                <li class="fListItem">Refund</li>
+                <li class="fListItem">FAQ</li>
+                <li class="fListItem">Feedback</li>
+                <li class="fListItem">Stories</li>
+            </ul>
+        </div>
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">Products</h1>
+            <ul class="fList">
+                <li class="fListItem">Air Force</li>
+                <li class="fListItem">Air Jordan</li>
+                <li class="fListItem">Blazer</li>
+                <li class="fListItem">Crater</li>
+                <li class="fListItem">Hippie</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footerRight">
+        <div class="footerRightMenu">
+            <h1 class="fMenuTitle">Subscribe to our newsletter</h1>
+            <div class="fMail">
+                <input type="text" placeholder="your@email.com" class="fInput">
+                <button class="fButton" type="button">Join!</button>
+            </div>
+        </div>
+        <div class="footerRightMenu">
+            <h1 class="fMenuTitle">Follow Us</h1>
+            <div class="fIcons">
+                <img src="{{ asset('images/facebook.png') }}" alt="Facebook" class="fIcon">
+                <img src="{{ asset('images/twitter.png') }}" alt="Twitter" class="fIcon">
+                <img src="{{ asset('images/instagram.png') }}" alt="Instagram" class="fIcon">
+                <img src="{{ asset('images/whatsapp.png') }}" alt="WhatsApp" class="fIcon">
+            </div>
+        </div>
+    </div>
+</footer>
 {% endblock %}
