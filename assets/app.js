@@ -92,11 +92,13 @@ currentProductColors.forEach((color, index) => {
 currentProductSizes.forEach((size) => {
 	size.addEventListener('click', () => {
 		currentProductSizes.forEach((s) => {
-			s.style.backgroundColor = 'white';
-			s.style.color = 'black';
+			s.style.backgroundColor = '';
+			s.style.color = '';
+			s.style.borderColor = '';
 		});
-		size.style.backgroundColor = 'black';
-		size.style.color = 'white';
+		size.style.backgroundColor = 'rgba(6, 182, 212, 0.2)';
+		size.style.color = '#06b6d4';
+		size.style.borderColor = '#06b6d4';
 	});
 });
 
