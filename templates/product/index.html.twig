@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Our Products</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    {% for product in products %}
+    <div style="border: 1px solid #ccc; padding: 15px; width: 200px;">
+        {% if product.imageUrl %}
+            <img src="{{ product.imageUrl }}" style="width: 100%;">
+        {% endif %}
+        <h3>{{ product.name }}</h3>
+        <p>${{ product.price }}</p>
+        <a href="{{ path('app_product_show', {id: product.id}) }}">View</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
