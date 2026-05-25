@@ -15,7 +15,7 @@ class ProductFixtures extends Fixture
         $product1->setDescription('Classic Nike sneakers, very comfortable.');
         $product1->setPrice(120.99);
         $product1->setStock(50);
-        $product1->setImageUrl('https://via.placeholder.com/200');
+        $product1->setImageUrl('/images/nike.avif');        
         $manager->persist($product1);
 
         $product2 = new Product();
@@ -23,7 +23,7 @@ class ProductFixtures extends Fixture
         $product2->setDescription('Warm and stylish hoodie for everyday wear.');
         $product2->setPrice(59.99);
         $product2->setStock(30);
-        $product2->setImageUrl('https://via.placeholder.com/200');
+        $product2->setImageUrl('/images/adidas.avif');
         $manager->persist($product2);
 
         $product3 = new Product();
@@ -31,7 +31,7 @@ class ProductFixtures extends Fixture
         $product3->setDescription('Noise cancelling wireless headphones.');
         $product3->setPrice(199.99);
         $product3->setStock(15);
-        $product3->setImageUrl('https://via.placeholder.com/200');
+        $product3->setImageUrl('/images/sony.webp');
         $manager->persist($product3);
 
         $manager->flush();
