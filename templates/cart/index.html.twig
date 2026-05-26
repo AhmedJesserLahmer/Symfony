@@ -77,9 +77,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="cart-price">${{ item.product.price }}</td>
+                                <td class="cart-price">{{ item.product.price }} DT</td>
                                 <td class="cart-qty">{{ item.quantity }}</td>
-                                <td class="cart-total-cell">${{ item.lineTotal|number_format(2, '.', ',') }}</td>
+                                <td class="cart-total-cell">{{ item.lineTotal|number_format(2, '.', ',') }} DT</td>
                                 <td>
                                     <form method="post" action="{{ path('app_cart_remove', {id: item.product.id}) }}">
                                         <input type="hidden" name="_token" value="{{ csrf_token('cart_remove' ~ item.product.id) }}">
@@ -137,15 +137,15 @@
                 <div class="cart-totals">
                     <div class="cart-total-row">
                         <span>Subtotal</span>
-                        <span>${{ total|number_format(2, '.', ',') }}</span>
+                        <span>{{ total|number_format(2, '.', ',') }} DT</span>
                     </div>
                     {% if discount > 0 %}
                         <div class="cart-total-row">
                             <span>Discount</span>
-                            <span>-${{ discount|number_format(2, '.', ',') }}</span>
+                            <span>-{{ discount|number_format(2, '.', ',') }} DT</span>
                         </div>
                     {% endif %}
-                    <div class="cart-total-row cart-grand-total">Total: ${{ grandTotal|number_format(2, '.', ',') }}</div>
+                    <div class="cart-total-row cart-grand-total">Total: {{ grandTotal|number_format(2, '.', ',') }} DT</div>
                 </div>
             </aside>
         </div>

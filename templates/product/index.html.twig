@@ -54,7 +54,7 @@
             <img src="{{ asset('images/air.png') }}" alt="Air Force" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">AIR FORCE<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$175</h2>
+            <h2 class="sliderPrice">175 DT</h2>
             {% if sliderProducts[0] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[0].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[0].id) }}">
@@ -84,7 +84,7 @@
             <img src="{{ asset('images/jordan.png') }}" alt="Air Jordan" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">AIR JORDAN<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$149</h2>
+            <h2 class="sliderPrice">149 DT</h2>
             {% if sliderProducts[1] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[1].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[1].id) }}">
@@ -114,7 +114,7 @@
             <img src="{{ asset('images/blazer.png') }}" alt="Blazer" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">BLAZER<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$119</h2>
+            <h2 class="sliderPrice">119 DT</h2>
             {% if sliderProducts[2] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[2].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[2].id) }}">
@@ -144,7 +144,7 @@
             <img src="{{ asset('images/crater.png') }}" alt="Crater" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">CRATER<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$109</h2>
+            <h2 class="sliderPrice">109 DT</h2>
             {% if sliderProducts[3] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[3].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[3].id) }}">
@@ -174,7 +174,7 @@
             <img src="{{ asset('images/hippie.png') }}" alt="Hippie" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">HIPPIE<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$200</h2>
+            <h2 class="sliderPrice">200 DT</h2>
             {% if sliderProducts[4] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[4].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[4].id) }}">
@@ -236,10 +236,10 @@
                 <label class="catalogLabel" for="price">Price range</label>
                 <select id="price" name="price" class="catalogSelect" onchange="this.form.submit()">
                     <option value="" {% if priceRange == '' %}selected{% endif %}>All prices</option>
-                    <option value="0-120" {% if priceRange == '0-120' %}selected{% endif %}>Under $120</option>
-                    <option value="120-160" {% if priceRange == '120-160' %}selected{% endif %}>$120 - $160</option>
-                    <option value="160-200" {% if priceRange == '160-200' %}selected{% endif %}>$160 - $200</option>
-                    <option value="200+" {% if priceRange == '200+' %}selected{% endif %}>$200+</option>
+                    <option value="0-120" {% if priceRange == '0-120' %}selected{% endif %}>Under 120 DT</option>
+                    <option value="120-160" {% if priceRange == '120-160' %}selected{% endif %}>120 - 160 DT</option>
+                    <option value="160-200" {% if priceRange == '160-200' %}selected{% endif %}>160 - 200 DT</option>
+                    <option value="200+" {% if priceRange == '200+' %}selected{% endif %}>200+ DT</option>
                 </select>
             </div>
         </form>
@@ -279,7 +279,7 @@
                     {% endif %}
                     <p class="productCopy">{{ product.description|slice(0, 90) }}...</p>
                     <div class="productMeta">
-                        <span class="productCardPrice">${{ product.price }}</span>
+                        <span class="productCardPrice">{{ product.price }} DT</span>
                     </div>
                     <div class="productActions">
                         <a href="{{ path('app_product_show', {id: product.id}) }}" class="buttonOutline">View</a>
@@ -300,7 +300,7 @@
     <img src="{{ asset('images/air.png') }}" alt="Air Force" class="productImg">
     <div class="productDetails">
         <h1 class="productTitle">AIR FORCE</h1>
-        <h2 class="productPrice">$199</h2>
+        <h2 class="productPrice">199 DT</h2>
         <p class="productDesc">Classic basketball silhouette reimagined for modern streets.</p>
         <div class="colors">
             <div class="color"></div>

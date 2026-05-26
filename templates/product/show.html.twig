@@ -52,7 +52,7 @@
             <div class="productPageCategory">Category: {{ product.category.name }}</div>
         {% endif %}
         <p class="productPageDesc">{{ product.description }}</p>
-        <div class="productPagePrice">${{ product.price }}</div>
+        <div class="productPagePrice">{{ product.price }} DT</div>
         <div class="productPageStock">
             {% if product.stock > 0 %}
                 In stock ({{ product.stock }} left)
