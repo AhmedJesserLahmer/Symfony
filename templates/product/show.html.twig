@@ -63,6 +63,7 @@
         <div class="productPageActions">
             <form method="post" action="{{ path('app_cart_add', {id: product.id}) }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ product.id) }}">
+                <input type="hidden" name="return_to" value="{{ app.request.uri }}">
                 <button type="submit" class="buttonPrimary">Add to cart</button>
             </form>
             <a href="{{ path('app_cart_index') }}" class="buttonOutline">View cart</a>

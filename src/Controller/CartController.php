@@ -82,7 +82,15 @@ class CartController extends AbstractController
 
         $this->addFlash('cart_success', 'Ajoute au panier.');
 
+        $returnTo = (string) $request->request->get('return_to', '');
         $referer = $request->headers->get('referer');
+        $host = $request->getSchemeAndHttpHost();
+
+        if ($returnTo !== '') {
+            if (str_starts_with($returnTo, '/') || str_starts_with($returnTo, $host)) {
+                return $this->redirect($returnTo);
+            }
+        }
 
         return $this->redirect($referer ?? $this->generateUrl('app_cart_index'));
     }

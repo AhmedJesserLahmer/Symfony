@@ -36,7 +36,7 @@ const initShopUI = () => {
 			return;
 		}
 		currentProductTitle.textContent = product.title || '';
-		currentProductPrice.textContent = product.price ? `$${product.price}` : '';
+		currentProductPrice.textContent = product.price ? `${product.price} DT` : '';
 		if (product.image) {
 			currentProductImg.src = product.image;
 		}
