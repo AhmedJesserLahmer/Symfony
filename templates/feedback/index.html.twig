@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Feedback - Sneakers Store{% endblock %}
+
+{% block body %}
+<main class="feedback-page">
+    <section class="feedback-panel">
+        <a href="{{ path('app_products') }}" class="feedback-back">Back to store</a>
+        <div class="feedback-heading">
+            <p>Customer feedback</p>
+            <h1>Tell us what you think</h1>
+        </div>
+
+        {% for message in app.flashes('feedback_success') %}
+            <div class="feedback-alert feedback-alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('feedback_error') %}
+            <div class="feedback-alert feedback-alert-error">{{ message }}</div>
+        {% endfor %}
+
+        <form class="feedback-form" method="post" action="{{ path('app_feedback') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('feedback_submit') }}">
+
+            <label>
+                Your name
+                <input type="text" name="name" value="{{ data.name }}" placeholder="Ahmed" required>
+            </label>
+
+            <label>
+                Subject
+                <input type="text" name="subject" value="{{ data.subject }}" placeholder="Delivery, product quality, website..." required>
+            </label>
+
+            <label>
+                Rating
+                <select name="rating" required>
+                    {% for rating in 5..1 %}
+                        <option value="{{ rating }}" {% if data.rating == rating %}selected{% endif %}>
+                            {{ rating }}/5
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Message
+                <textarea name="message" rows="7" placeholder="Write your feedback here..." required>{{ data.message }}</textarea>
+            </label>
+
+            <button type="submit">Send feedback</button>
+        </form>
+    </section>
+</main>
+{% endblock %}

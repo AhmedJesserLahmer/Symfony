@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Feedback;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
+use App\Repository\FeedbackRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,18 +24,22 @@ final class AdminController extends AbstractController
         ProductRepository $productRepository,
         CategoryRepository $categoryRepository,
         UserRepository $userRepository,
+        FeedbackRepository $feedbackRepository,
     ): Response
     {
         $products = $productRepository->findBy([], ['id' => 'DESC']);
         $categories = $categoryRepository->findBy([], ['name' => 'ASC']);
         $users = $userRepository->findBy([], ['id' => 'DESC']);
+        $feedbacks = $feedbackRepository->findBy([], ['id' => 'DESC']);
 
         return $this->render('admin/index.html.twig', [
             'products' => $products,
             'categories' => $categories,
             'users' => $users,
+            'feedbacks' => $feedbacks,
             'totalStock' => array_sum(array_map(static fn (Product $product): int => $product->getStock() ?? 0, $products)),
             'lowStockCount' => count(array_filter($products, static fn (Product $product): bool => ($product->getStock() ?? 0) <= 5)),
+            'newFeedbackCount' => $feedbackRepository->countNew(),
         ]);
     }
 
@@ -176,6 +182,41 @@ final class AdminController extends AbstractController
 
         $user->setRoles(array_values(array_unique($roles)));
         $entityManager->flush();
+
+        return $this->redirectToRoute('app_admin');
+    }
+
+    #[Route('/admin/feedback/{id}/review', name: 'app_admin_feedback_review', methods: ['POST'])]
+    public function reviewFeedback(Feedback $feedback, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        if (!$this->isCsrfTokenValid('admin_feedback_review'.$feedback->getId(), (string) $request->request->get('_token'))) {
+            $this->addFlash('admin_error', 'Feedback update was refused.');
+
+            return $this->redirectToRoute('app_admin');
+        }
+
+        $feedback->setStatus(Feedback::STATUS_REVIEWED);
+        $feedback->setReviewedAt(new \DateTimeImmutable());
+        $entityManager->flush();
+
+        $this->addFlash('admin_success', 'Feedback marked as reviewed.');
+
+        return $this->redirectToRoute('app_admin');
+    }
+
+    #[Route('/admin/feedback/{id}/delete', name: 'app_admin_feedback_delete', methods: ['POST'])]
+    public function deleteFeedback(Feedback $feedback, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        if (!$this->isCsrfTokenValid('admin_feedback_delete'.$feedback->getId(), (string) $request->request->get('_token'))) {
+            $this->addFlash('admin_error', 'Feedback deletion was refused.');
+
+            return $this->redirectToRoute('app_admin');
+        }
+
+        $entityManager->remove($feedback);
+        $entityManager->flush();
+
+        $this->addFlash('admin_success', 'Feedback deleted.');
 
         return $this->redirectToRoute('app_admin');
     }

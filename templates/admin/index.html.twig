@@ -9,6 +9,7 @@
         <nav class="admin-menu" aria-label="Admin navigation">
             <a href="#products">Products</a>
             <a href="#categories">Categories</a>
+            <a href="#feedback">Feedback</a>
             <a href="#users">Users</a>
             <a href="{{ path('app_products') }}">Storefront</a>
         </nav>
@@ -51,6 +52,10 @@
             <article class="admin-stat">
                 <span>Low stock</span>
                 <strong>{{ lowStockCount }}</strong>
+            </article>
+            <article class="admin-stat">
+                <span>New feedback</span>
+                <strong>{{ newFeedbackCount }}</strong>
             </article>
         </div>
 
@@ -180,6 +185,48 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+        </section>
+
+        <section class="admin-section" id="feedback">
+            <div class="admin-section-heading">
+                <div>
+                    <p class="admin-kicker">Customers</p>
+                    <h2>Feedback</h2>
+                </div>
+            </div>
+
+            <div class="admin-feedback-list">
+                {% for feedback in feedbacks %}
+                    <article class="admin-feedback-card {% if feedback.status == 'new' %}is-new{% endif %}">
+                        <div class="admin-feedback-top">
+                            <div>
+                                <strong>{{ feedback.subject }}</strong>
+                                <span>{{ feedback.name }} - {{ feedback.email }}</span>
+                            </div>
+                            <div class="admin-feedback-rating">{{ feedback.rating }}/5</div>
+                        </div>
+                        <p>{{ feedback.message }}</p>
+                        <div class="admin-feedback-meta">
+                            <span>{{ feedback.status|capitalize }}</span>
+                            <span>{{ feedback.createdAt|date('Y-m-d H:i') }}</span>
+                        </div>
+                        <div class="admin-feedback-actions">
+                            {% if feedback.status == 'new' %}
+                                <form method="post" action="{{ path('app_admin_feedback_review', {id: feedback.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('admin_feedback_review' ~ feedback.id) }}">
+                                    <button type="submit" class="admin-link-button">Mark reviewed</button>
+                                </form>
+                            {% endif %}
+                            <form method="post" action="{{ path('app_admin_feedback_delete', {id: feedback.id}) }}" onsubmit="return confirm('Delete this feedback?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('admin_feedback_delete' ~ feedback.id) }}">
+                                <button type="submit" class="admin-danger-button">Delete</button>
+                            </form>
+                        </div>
+                    </article>
+                {% else %}
+                    <p class="admin-muted">No feedback yet.</p>
+                {% endfor %}
             </div>
         </section>
 
