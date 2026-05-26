@@ -634,9 +634,17 @@ nav {
 
 .catalogFilter {
     display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.catalogFilterGroup {
+    display: flex;
     flex-direction: column;
     gap: 8px;
-    min-width: 240px;
+    min-width: 220px;
 }
 
 .catalogLabel {
@@ -661,6 +669,34 @@ nav {
 .catalogSelect:hover {
     border-color: rgba(102, 126, 234, 0.5);
     box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+}
+
+.catalogChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 18px 0 28px;
+}
+
+.catalogChip {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    color: rgba(26, 26, 46, 0.8);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+.catalogChip.is-active {
+    background: var(--gradient-primary);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
 }
 
 .catalogGrid {
@@ -1266,6 +1302,40 @@ nav {
 
 .promo-remove-btn {
     background: var(--gradient-accent);
+}
+
+.payment-form {
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.12);
+}
+
+.payment-title {
+    font-weight: 700;
+    color: rgba(26, 26, 46, 0.8);
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: rgba(26, 26, 46, 0.8);
+}
+
+.payment-save-btn {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: none;
+    background: var(--gradient-primary);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    justify-self: flex-start;
 }
 
 .cart-totals {

@@ -11,20 +11,35 @@ class ProductFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $shoes = new Category();
-        $shoes->setName('Shoes');
-        $shoes->setSlug('shoes');
-        $manager->persist($shoes);
+        $airForce = new Category();
+        $airForce->setName('Air Force');
+        $airForce->setSlug('air-force');
+        $manager->persist($airForce);
 
-        $clothing = new Category();
-        $clothing->setName('Clothing');
-        $clothing->setSlug('clothing');
-        $manager->persist($clothing);
+        $jordan = new Category();
+        $jordan->setName('Jordan');
+        $jordan->setSlug('jordan');
+        $manager->persist($jordan);
 
-        $electronics = new Category();
-        $electronics->setName('Electronics');
-        $electronics->setSlug('electronics');
-        $manager->persist($electronics);
+        $blazer = new Category();
+        $blazer->setName('Blazer');
+        $blazer->setSlug('blazer');
+        $manager->persist($blazer);
+
+        $crater = new Category();
+        $crater->setName('Crater');
+        $crater->setSlug('crater');
+        $manager->persist($crater);
+
+        $hippie = new Category();
+        $hippie->setName('Hippie');
+        $hippie->setSlug('hippie');
+        $manager->persist($hippie);
+
+        $limited = new Category();
+        $limited->setName('Limited');
+        $limited->setSlug('limited');
+        $manager->persist($limited);
 
         $featuredProducts = [
             [
@@ -71,7 +86,14 @@ class ProductFixtures extends Fixture
             $product->setPrice($data['price']);
             $product->setStock($data['stock']);
             $product->setImageUrl($data['image']);
-            $product->setCategory($shoes);
+            $product->setCategory(match ($data['name']) {
+                'Air Force' => $airForce,
+                'Jordan' => $jordan,
+                'Blazer' => $blazer,
+                'Crater' => $crater,
+                'Hippie' => $hippie,
+                default => $limited,
+            });
             $manager->persist($product);
         }
 
@@ -81,7 +103,7 @@ class ProductFixtures extends Fixture
         $product1->setPrice(120.99);
         $product1->setStock(50);
         $product1->setImageUrl('/images/nike.avif');
-        $product1->setCategory($shoes);
+        $product1->setCategory($airForce);
         $manager->persist($product1);
 
         $product2 = new Product();
@@ -90,7 +112,7 @@ class ProductFixtures extends Fixture
         $product2->setPrice(159.99);
         $product2->setStock(18);
         $product2->setImageUrl('/images/sneakerslimited.png');
-        $product2->setCategory($shoes);
+        $product2->setCategory($limited);
         $manager->persist($product2);
 
         $product3 = new Product();
@@ -99,7 +121,7 @@ class ProductFixtures extends Fixture
         $product3->setPrice(179.99);
         $product3->setStock(12);
         $product3->setImageUrl('/images/sneakerslimited2.png');
-        $product3->setCategory($shoes);
+        $product3->setCategory($limited);
         $manager->persist($product3);
 
         $manager->flush();

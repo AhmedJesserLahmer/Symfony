@@ -95,6 +95,19 @@
                 <button type="submit" class="cart-clear-btn">Clear cart</button>
             </form>
             <div class="cart-summary">
+                <form method="post" action="{{ path('app_cart_payment_method') }}" class="payment-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_payment_method') }}">
+                    <div class="payment-title">Payment method</div>
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="cash" {% if paymentMethod == 'cash' %}checked{% endif %}>
+                        <span>Cash on delivery</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="card" {% if paymentMethod == 'card' %}checked{% endif %}>
+                        <span>Credit card</span>
+                    </label>
+                    <button type="submit" class="payment-save-btn">Save</button>
+                </form>
                 <form method="post" action="{{ path('app_cart_promo') }}" class="promo-form">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_promo') }}">
                     <input type="text" name="promo_code" placeholder="Promo code" class="promo-input" value="{{ promoCode ?: '' }}">
