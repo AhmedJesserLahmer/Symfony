@@ -67,6 +67,8 @@ class CartController extends AbstractController
     public function add(Product $product, Request $request, SessionInterface $session): Response
     {
         if (!$this->isCsrfTokenValid('cart_add' . $product->getId(), (string) $request->request->get('_token'))) {
+            $this->addFlash('cart_error', 'Action refusee.');
+
             return $this->redirectToRoute('app_cart_index');
         }
 
@@ -75,6 +77,8 @@ class CartController extends AbstractController
 
         $cart[$productId] = ($cart[$productId] ?? 0) + 1;
         $session->set('cart', $cart);
+
+        $this->addFlash('cart_success', 'Ajoute au panier.');
 
         $referer = $request->headers->get('referer');
 

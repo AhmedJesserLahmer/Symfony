@@ -26,6 +26,55 @@ class ProductFixtures extends Fixture
         $electronics->setSlug('electronics');
         $manager->persist($electronics);
 
+        $featuredProducts = [
+            [
+                'name' => 'Air Force',
+                'description' => 'Classic basketball silhouette reimagined for modern streets.',
+                'price' => 175.00,
+                'stock' => 24,
+                'image' => '/images/air.png',
+            ],
+            [
+                'name' => 'Jordan',
+                'description' => 'High-energy design with premium cushioning and bold style.',
+                'price' => 149.00,
+                'stock' => 20,
+                'image' => '/images/jordan.png',
+            ],
+            [
+                'name' => 'Blazer',
+                'description' => 'Retro court silhouette with a modern streetwear twist.',
+                'price' => 119.00,
+                'stock' => 18,
+                'image' => '/images/blazer.png',
+            ],
+            [
+                'name' => 'Crater',
+                'description' => 'Lightweight build with a futuristic, sustainable vibe.',
+                'price' => 109.00,
+                'stock' => 16,
+                'image' => '/images/crater.png',
+            ],
+            [
+                'name' => 'Hippie',
+                'description' => 'Everyday comfort with a soft, minimal look.',
+                'price' => 200.00,
+                'stock' => 12,
+                'image' => '/images/hippie.png',
+            ],
+        ];
+
+        foreach ($featuredProducts as $data) {
+            $product = new Product();
+            $product->setName($data['name']);
+            $product->setDescription($data['description']);
+            $product->setPrice($data['price']);
+            $product->setStock($data['stock']);
+            $product->setImageUrl($data['image']);
+            $product->setCategory($shoes);
+            $manager->persist($product);
+        }
+
         $product1 = new Product();
         $product1->setName('Nike Air Max');
         $product1->setDescription('Classic Nike sneakers, very comfortable.');

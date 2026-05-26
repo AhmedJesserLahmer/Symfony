@@ -23,7 +23,10 @@ class ProductRepository extends ServiceEntityRepository
     public function findByCategory(?Category $category): array
     {
         if ($category === null) {
-            return $this->findAll();
+            return $this->createQueryBuilder('p')
+                ->orderBy('p.id', 'ASC')
+                ->getQuery()
+                ->getResult();
         }
 
         return $this->createQueryBuilder('p')
