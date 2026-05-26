@@ -12,18 +12,18 @@
             </div>
 
             {% if error %}
-                <div class="alert alert-danger alert-dismissible" role="alert">
+                <div class="auth-alert auth-alert-error" role="alert">
                     <strong>Erreur d'authentification</strong>
                     <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
                 </div>
             {% endif %}
 
             {% if app.user %}
-                <div class="alert alert-info alert-dismissible" role="alert">
+                <div class="auth-alert auth-alert-info" role="alert">
                     <strong>Déjà connecté</strong>
                     <p>Vous êtes connecté en tant que <strong>{{ app.user.userIdentifier }}</strong></p>
                     <div style="margin-top: 10px;">
-                        <a href="{{ logout_path() }}" class="btn btn-secondary btn-sm">Se déconnecter</a>
+                        <a href="{{ logout_path() }}" class="buttonOutline">Se déconnecter</a>
                     </div>
                 </div>
             {% endif %}
@@ -69,7 +69,7 @@
 
                 <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
-                <button class="btn btn-primary btn-lg w-100" type="submit">
+                <button class="buttonPrimary" type="submit">
                     Se connecter
                 </button>
             </form>

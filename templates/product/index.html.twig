@@ -20,6 +20,14 @@
         <div class="navItem navCart">
             <a href="{{ path('app_cart_index') }}" class="buttonOutline">Cart</a>
         </div>
+        <div class="navItem navAuth">
+            {% if app.user %}
+                <a href="{{ path('app_account') }}" class="buttonOutline">Account</a>
+                <a href="{{ path('app_logout') }}" class="buttonPrimary">Logout</a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="buttonOutline">Login</a>
+            {% endif %}
+        </div>
     </div>
     <div class="navBottom">
         <h3 class="menuItem">AIR FORCE</h3>
@@ -31,51 +39,157 @@
 </nav>
 
 <div class="slider">
+    {% set sliderProducts = products|slice(0, 5) %}
     <div class="sliderWrapper">
-        <div class="sliderItem">
+        <div
+            class="sliderItem"
+            data-product-id="{{ sliderProducts[0] is defined ? sliderProducts[0].id : '' }}"
+            data-product-title="Air Force"
+            data-product-price="175"
+            data-product-image="{{ asset('images/air.png') }}"
+            data-color-1="black"
+            data-color-2="darkblue"
+            data-cart-token="{{ sliderProducts[0] is defined ? csrf_token('cart_add' ~ sliderProducts[0].id) : '' }}"
+        >
             <img src="{{ asset('images/air.png') }}" alt="Air Force" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">AIR FORCE<br>NEW<br>SEASON</h1>
             <h2 class="sliderPrice">$175</h2>
-            <a href="#product">
-                <button class="buyButton" type="button">BUY NOW!</button>
-            </a>
+            {% if sliderProducts[0] is defined %}
+                <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[0].id}) }}" class="sliderBuyForm">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[0].id) }}">
+                    <button
+                        class="buyButton js-add-to-cart"
+                        type="submit"
+                        data-product-id="{{ sliderProducts[0].id }}"
+                        data-cart-token="{{ csrf_token('cart_add' ~ sliderProducts[0].id) }}"
+                    >
+                        BUY NOW!
+                    </button>
+                </form>
+            {% else %}
+                <button class="buyButton" type="button" disabled>BUY NOW!</button>
+            {% endif %}
         </div>
-        <div class="sliderItem">
+        <div
+            class="sliderItem"
+            data-product-id="{{ sliderProducts[1] is defined ? sliderProducts[1].id : '' }}"
+            data-product-title="Air Jordan"
+            data-product-price="149"
+            data-product-image="{{ asset('images/jordan.png') }}"
+            data-color-1="lightgray"
+            data-color-2="green"
+            data-cart-token="{{ sliderProducts[1] is defined ? csrf_token('cart_add' ~ sliderProducts[1].id) : '' }}"
+        >
             <img src="{{ asset('images/jordan.png') }}" alt="Air Jordan" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">AIR JORDAN<br>NEW<br>SEASON</h1>
             <h2 class="sliderPrice">$149</h2>
-            <a href="#product">
-                <button class="buyButton" type="button">BUY NOW!</button>
-            </a>
+            {% if sliderProducts[1] is defined %}
+                <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[1].id}) }}" class="sliderBuyForm">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[1].id) }}">
+                    <button
+                        class="buyButton js-add-to-cart"
+                        type="submit"
+                        data-product-id="{{ sliderProducts[1].id }}"
+                        data-cart-token="{{ csrf_token('cart_add' ~ sliderProducts[1].id) }}"
+                    >
+                        BUY NOW!
+                    </button>
+                </form>
+            {% else %}
+                <button class="buyButton" type="button" disabled>BUY NOW!</button>
+            {% endif %}
         </div>
-        <div class="sliderItem">
+        <div
+            class="sliderItem"
+            data-product-id="{{ sliderProducts[2] is defined ? sliderProducts[2].id : '' }}"
+            data-product-title="Blazer"
+            data-product-price="119"
+            data-product-image="{{ asset('images/blazer.png') }}"
+            data-color-1="lightgray"
+            data-color-2="green"
+            data-cart-token="{{ sliderProducts[2] is defined ? csrf_token('cart_add' ~ sliderProducts[2].id) : '' }}"
+        >
             <img src="{{ asset('images/blazer.png') }}" alt="Blazer" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">BLAZER<br>NEW<br>SEASON</h1>
             <h2 class="sliderPrice">$119</h2>
-            <a href="#product">
-                <button class="buyButton" type="button">BUY NOW!</button>
-            </a>
+            {% if sliderProducts[2] is defined %}
+                <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[2].id}) }}" class="sliderBuyForm">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[2].id) }}">
+                    <button
+                        class="buyButton js-add-to-cart"
+                        type="submit"
+                        data-product-id="{{ sliderProducts[2].id }}"
+                        data-cart-token="{{ csrf_token('cart_add' ~ sliderProducts[2].id) }}"
+                    >
+                        BUY NOW!
+                    </button>
+                </form>
+            {% else %}
+                <button class="buyButton" type="button" disabled>BUY NOW!</button>
+            {% endif %}
         </div>
-        <div class="sliderItem">
+        <div
+            class="sliderItem"
+            data-product-id="{{ sliderProducts[3] is defined ? sliderProducts[3].id : '' }}"
+            data-product-title="Crater"
+            data-product-price="109"
+            data-product-image="{{ asset('images/crater.png') }}"
+            data-color-1="black"
+            data-color-2="lightgray"
+            data-cart-token="{{ sliderProducts[3] is defined ? csrf_token('cart_add' ~ sliderProducts[3].id) : '' }}"
+        >
             <img src="{{ asset('images/crater.png') }}" alt="Crater" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">CRATER<br>NEW<br>SEASON</h1>
             <h2 class="sliderPrice">$109</h2>
-            <a href="#product">
-                <button class="buyButton" type="button">BUY NOW!</button>
-            </a>
+            {% if sliderProducts[3] is defined %}
+                <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[3].id}) }}" class="sliderBuyForm">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[3].id) }}">
+                    <button
+                        class="buyButton js-add-to-cart"
+                        type="submit"
+                        data-product-id="{{ sliderProducts[3].id }}"
+                        data-cart-token="{{ csrf_token('cart_add' ~ sliderProducts[3].id) }}"
+                    >
+                        BUY NOW!
+                    </button>
+                </form>
+            {% else %}
+                <button class="buyButton" type="button" disabled>BUY NOW!</button>
+            {% endif %}
         </div>
-        <div class="sliderItem">
+        <div
+            class="sliderItem"
+            data-product-id="{{ sliderProducts[4] is defined ? sliderProducts[4].id : '' }}"
+            data-product-title="Hippie"
+            data-product-price="200"
+            data-product-image="{{ asset('images/hippie.png') }}"
+            data-color-1="gray"
+            data-color-2="black"
+            data-cart-token="{{ sliderProducts[4] is defined ? csrf_token('cart_add' ~ sliderProducts[4].id) : '' }}"
+        >
             <img src="{{ asset('images/hippie.png') }}" alt="Hippie" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">HIPPIE<br>NEW<br>SEASON</h1>
             <h2 class="sliderPrice">$200</h2>
-            <a href="#product">
-                <button class="buyButton" type="button">BUY NOW!</button>
-            </a>
+            {% if sliderProducts[4] is defined %}
+                <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[4].id}) }}" class="sliderBuyForm">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[4].id) }}">
+                    <button
+                        class="buyButton js-add-to-cart"
+                        type="submit"
+                        data-product-id="{{ sliderProducts[4].id }}"
+                        data-cart-token="{{ csrf_token('cart_add' ~ sliderProducts[4].id) }}"
+                    >
+                        BUY NOW!
+                    </button>
+                </form>
+            {% else %}
+                <button class="buyButton" type="button" disabled>BUY NOW!</button>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -169,29 +283,26 @@
             <div class="size">43</div>
             <div class="size">44</div>
         </div>
-        <button class="productButton" type="button">BUY NOW!</button>
-    </div>
-    <div class="payment">
-        <h1 class="payTitle">Personal Information</h1>
-        <label>Name and Surname</label>
-        <input type="text" placeholder="John Doe" class="payInput">
-        <label>Phone Number</label>
-        <input type="text" placeholder="+1 234 5678" class="payInput">
-        <label>Address</label>
-        <input type="text" placeholder="Elton St 21 22-145" class="payInput">
-        <h1 class="payTitle">Card Information</h1>
-        <div class="cardIcons">
-            <img src="{{ asset('images/visa.png') }}" width="40" alt="Visa" class="cardIcon">
-            <img src="{{ asset('images/master.png') }}" width="40" alt="Mastercard" class="cardIcon">
-        </div>
-        <input type="password" class="payInput" placeholder="Card Number">
-        <div class="cardInfo">
-            <input type="text" placeholder="mm" class="payInput sm">
-            <input type="text" placeholder="yyyy" class="payInput sm">
-            <input type="text" placeholder="cvv" class="payInput sm">
-        </div>
-        <button class="payButton" type="button">Checkout!</button>
-        <span class="close">X</span>
+        {% if sliderProducts[0] is defined %}
+            <form
+                method="post"
+                action="{{ path('app_cart_add', {id: sliderProducts[0].id}) }}"
+                class="productBuyForm"
+                data-action-template="{{ path('app_cart_add', {id: 0}) }}"
+            >
+                <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[0].id) }}">
+                <button
+                    class="productButton js-add-to-cart"
+                    type="submit"
+                    data-product-id="{{ sliderProducts[0].id }}"
+                    data-cart-token="{{ csrf_token('cart_add' ~ sliderProducts[0].id) }}"
+                >
+                    BUY NOW!
+                </button>
+            </form>
+        {% else %}
+            <button class="productButton" type="button" disabled>BUY NOW!</button>
+        {% endif %}
     </div>
 </div>
 

@@ -22,6 +22,14 @@
         <div class="navItem navCart">
             <a href="{{ path('app_cart_index') }}" class="buttonOutline">Cart</a>
         </div>
+        <div class="navItem navAuth">
+            {% if app.user %}
+                <a href="{{ path('app_account') }}" class="buttonOutline">Account</a>
+                <a href="{{ path('app_logout') }}" class="buttonPrimary">Logout</a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="buttonOutline">Login</a>
+            {% endif %}
+        </div>
     </div>
 </nav>
 
@@ -30,6 +38,13 @@
         <h1>Your Cart</h1>
         <a href="{{ path('app_products') }}" class="cart-link">Continue shopping</a>
     </div>
+
+    {% for message in app.flashes('promo_success') %}
+        <div class="promo-alert promo-alert-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('promo_error') %}
+        <div class="promo-alert promo-alert-error">{{ message }}</div>
+    {% endfor %}
 
     {% if items is empty %}
         <div class="cart-empty">Your cart is empty. Start shopping to add items!</div>
@@ -79,7 +94,32 @@
                 <input type="hidden" name="_token" value="{{ csrf_token('cart_clear') }}">
                 <button type="submit" class="cart-clear-btn">Clear cart</button>
             </form>
-            <div class="cart-grand-total">Total: ${{ total|number_format(2, '.', ',') }}</div>
+            <div class="cart-summary">
+                <form method="post" action="{{ path('app_cart_promo') }}" class="promo-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_promo') }}">
+                    <input type="text" name="promo_code" placeholder="Promo code" class="promo-input" value="{{ promoCode ?: '' }}">
+                    <button type="submit" class="promo-btn">Apply</button>
+                </form>
+                {% if promoCode %}
+                    <form method="post" action="{{ path('app_cart_promo_remove') }}" class="promo-remove-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('cart_promo_remove') }}">
+                        <button type="submit" class="promo-remove-btn">Remove {{ promoCode }}</button>
+                    </form>
+                {% endif %}
+                <div class="cart-totals">
+                    <div class="cart-total-row">
+                        <span>Subtotal</span>
+                        <span>${{ total|number_format(2, '.', ',') }}</span>
+                    </div>
+                    {% if discount > 0 %}
+                        <div class="cart-total-row">
+                            <span>Discount</span>
+                            <span>-${{ discount|number_format(2, '.', ',') }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="cart-total-row cart-grand-total">Total: ${{ grandTotal|number_format(2, '.', ',') }}</div>
+                </div>
+            </div>
         </div>
     {% endif %}
 </div>

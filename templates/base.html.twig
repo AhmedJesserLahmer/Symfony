@@ -17,6 +17,32 @@
         {% endblock %}
     </head>
     <body>
+        {% for message in app.flashes('cart_success') %}
+            <div class="cart-toast cart-toast-success" role="status" aria-live="polite">
+                <div class="cart-toast__card">
+                    <span class="cart-toast__icon" aria-hidden="true">
+                        <svg viewBox="0 0 52 52" class="cart-toast__svg">
+                            <circle class="cart-toast__circle" cx="26" cy="26" r="25"></circle>
+                            <path class="cart-toast__check" d="M14 27 L22 35 L38 18"></path>
+                        </svg>
+                    </span>
+                    <span class="cart-toast__text">{{ message }}</span>
+                </div>
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('cart_error') %}
+            <div class="cart-toast cart-toast-error" role="alert" aria-live="assertive">
+                <div class="cart-toast__card">
+                    <span class="cart-toast__icon" aria-hidden="true">
+                        <svg viewBox="0 0 52 52" class="cart-toast__svg">
+                            <circle class="cart-toast__circle" cx="26" cy="26" r="25"></circle>
+                            <path class="cart-toast__check" d="M18 18 L34 34 M34 18 L18 34"></path>
+                        </svg>
+                    </span>
+                    <span class="cart-toast__text">{{ message }}</span>
+                </div>
+            </div>
+        {% endfor %}
         {% block body %}{% endblock %}
     </body>
 </html>

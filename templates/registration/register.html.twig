@@ -4,8 +4,16 @@
 
 {% block body %}
 <div class="auth-wrapper">
+<<<<<<< HEAD
     <div class="login-container">
         <div class="login-card register-modern-card">
+=======
+    <div class="register-card">
+        <div class="login-header">
+            <h1>Create Account</h1>
+            <p class="login-subtitle">Join the sneaker community</p>
+        </div>
+>>>>>>> 11cbd6668c0a806d54683d32dc3ea8620f14197b
 
             <div class="login-header">
                 <h1>Créer un compte</h1>
@@ -20,6 +28,7 @@
                 </div>
             {% endfor %}
 
+<<<<<<< HEAD
             {{ form_start(registrationForm, {'attr': {'class': 'login-form'}}) }}
 
                 <div class="form-group">
@@ -79,6 +88,13 @@
                 </p>
             </div>
 
+=======
+            <button type="submit" class="buttonPrimary">Register</button>
+        {{ form_end(registrationForm) }}
+
+        <div class="login-footer">
+            <p>Already have an account? <a href="{{ path('app_login') }}">Sign in</a></p>
+>>>>>>> 11cbd6668c0a806d54683d32dc3ea8620f14197b
         </div>
     </div>
 </div>
