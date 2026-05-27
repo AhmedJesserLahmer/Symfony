@@ -1,17 +1,256 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Admin Dashboard — Sneakers Store{% endblock %}
+{% block title %}Admin Dashboard - Sneakers Store{% endblock %}
 
 {% block body %}
-<div class="auth-wrapper">
-    <div class="admin-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
+<main class="admin-page">
+    <aside class="admin-sidebar">
+        <a class="admin-brand" href="{{ path('app_admin') }}">Sneakers Admin</a>
+        <nav class="admin-menu" aria-label="Admin navigation">
+            <a href="#products">Products</a>
+            <a href="#categories">Categories</a>
+            <a href="#users">Users</a>
+            <a href="{{ path('app_products') }}">Storefront</a>
+        </nav>
+        <div class="admin-user">
+            <span>Signed in as</span>
+            <strong>{{ app.user.userIdentifier }}</strong>
+            <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    </aside>
 
-        <p style="color: var(--text-secondary); margin-bottom: 16px;">This friendly message is coming from:</p>
-        <ul>
-            <li>Your controller at <code>src/Controller/AdminController.php</code></li>
-            <li>Your template at <code>templates/admin/index.html.twig</code></li>
-        </ul>
-    </div>
-</div>
+    <section class="admin-main">
+        <header class="admin-header">
+            <div>
+                <p class="admin-kicker">Back office</p>
+                <h1>Dashboard</h1>
+            </div>
+            <a class="admin-primary-link" href="{{ path('app_products') }}">View store</a>
+        </header>
+
+        {% for message in app.flashes('admin_success') %}
+            <div class="admin-alert admin-alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('admin_error') %}
+            <div class="admin-alert admin-alert-error">{{ message }}</div>
+        {% endfor %}
+
+        <div class="admin-stats">
+            <article class="admin-stat">
+                <span>Products</span>
+                <strong>{{ products|length }}</strong>
+            </article>
+            <article class="admin-stat">
+                <span>Categories</span>
+                <strong>{{ categories|length }}</strong>
+            </article>
+            <article class="admin-stat">
+                <span>Total stock</span>
+                <strong>{{ totalStock }}</strong>
+            </article>
+            <article class="admin-stat">
+                <span>Low stock</span>
+                <strong>{{ lowStockCount }}</strong>
+            </article>
+        </div>
+
+        <section class="admin-section" id="products">
+            <div class="admin-section-heading">
+                <div>
+                    <p class="admin-kicker">Catalog</p>
+                    <h2>Products</h2>
+                </div>
+            </div>
+
+            <form class="admin-form admin-create-form" method="post" action="{{ path('app_admin_product_create') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('admin_product_create') }}">
+                <label>
+                    Name
+                    <input type="text" name="name" placeholder="Air Max 90" required>
+                </label>
+                <label>
+                    Price
+                    <input type="number" name="price" min="0" step="0.01" placeholder="129.99" required>
+                </label>
+                <label>
+                    Stock
+                    <input type="number" name="stock" min="0" step="1" placeholder="20" required>
+                </label>
+                <label>
+                    Category
+                    <select name="category">
+                        <option value="">No category</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label class="admin-wide-field">
+                    Image path
+                    <input type="text" name="imageUrl" placeholder="/images/air.png" required>
+                </label>
+                <label class="admin-wide-field">
+                    Description
+                    <textarea name="description" rows="3" placeholder="Short product description" required></textarea>
+                </label>
+                <button type="submit">Add product</button>
+            </form>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>
+                                    <div class="admin-product-cell">
+                                        {% if product.imageUrl %}
+                                            <img src="{{ asset(product.imageUrl|trim('/')) }}" alt="{{ product.name }}">
+                                        {% endif %}
+                                        <div>
+                                            <strong>{{ product.name }}</strong>
+                                            <span>{{ product.description|slice(0, 70) }}{% if product.description|length > 70 %}...{% endif %}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${{ product.price }}</td>
+                                <td>
+                                    <span class="admin-stock {% if product.stock <= 5 %}is-low{% endif %}">
+                                        {{ product.stock }}
+                                    </span>
+                                </td>
+                                <td>{{ product.category ? product.category.name : 'None' }}</td>
+                                <td>
+                                    <details class="admin-row-actions">
+                                        <summary>Edit</summary>
+                                        <form class="admin-form admin-edit-form" method="post" action="{{ path('app_admin_product_update', {id: product.id}) }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('admin_product_update' ~ product.id) }}">
+                                            <label>
+                                                Name
+                                                <input type="text" name="name" value="{{ product.name }}" required>
+                                            </label>
+                                            <label>
+                                                Price
+                                                <input type="number" name="price" value="{{ product.price }}" min="0" step="0.01" required>
+                                            </label>
+                                            <label>
+                                                Stock
+                                                <input type="number" name="stock" value="{{ product.stock }}" min="0" step="1" required>
+                                            </label>
+                                            <label>
+                                                Category
+                                                <select name="category">
+                                                    <option value="">No category</option>
+                                                    {% for category in categories %}
+                                                        <option value="{{ category.id }}" {% if product.category and product.category.id == category.id %}selected{% endif %}>
+                                                            {{ category.name }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                            <label class="admin-wide-field">
+                                                Image path
+                                                <input type="text" name="imageUrl" value="{{ product.imageUrl }}" required>
+                                            </label>
+                                            <label class="admin-wide-field">
+                                                Description
+                                                <textarea name="description" rows="3" required>{{ product.description }}</textarea>
+                                            </label>
+                                            <button type="submit">Save changes</button>
+                                        </form>
+                                        <form method="post" action="{{ path('app_admin_product_delete', {id: product.id}) }}" onsubmit="return confirm('Delete this product?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('admin_product_delete' ~ product.id) }}">
+                                            <button class="admin-danger-button" type="submit">Delete product</button>
+                                        </form>
+                                    </details>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">No products yet.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="admin-grid-section">
+            <div class="admin-section" id="categories">
+                <div class="admin-section-heading">
+                    <div>
+                        <p class="admin-kicker">Catalog</p>
+                        <h2>Categories</h2>
+                    </div>
+                </div>
+
+                <form class="admin-form admin-compact-form" method="post" action="{{ path('app_admin_category_create') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('admin_category_create') }}">
+                    <label>
+                        Name
+                        <input type="text" name="name" placeholder="Accessories" required>
+                    </label>
+                    <button type="submit">Add category</button>
+                </form>
+
+                <div class="admin-list">
+                    {% for category in categories %}
+                        <div class="admin-list-row">
+                            <div>
+                                <strong>{{ category.name }}</strong>
+                                <span>{{ category.products|length }} products</span>
+                            </div>
+                            <form method="post" action="{{ path('app_admin_category_delete', {id: category.id}) }}" onsubmit="return confirm('Delete this category? Products will stay in the catalog.');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('admin_category_delete' ~ category.id) }}">
+                                <button class="admin-link-button" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <p class="admin-muted">No categories yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="admin-section" id="users">
+                <div class="admin-section-heading">
+                    <div>
+                        <p class="admin-kicker">Access</p>
+                        <h2>Users</h2>
+                    </div>
+                </div>
+
+                <div class="admin-list">
+                    {% for user in users %}
+                        <div class="admin-list-row">
+                            <div>
+                                <strong>{{ user.email }}</strong>
+                                <span>{{ 'ROLE_ADMIN' in user.roles ? 'Admin' : 'Customer' }}</span>
+                            </div>
+                            {% if app.user.id != user.id %}
+                                <form method="post" action="{{ path('app_admin_user_toggle_admin', {id: user.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('admin_user_toggle' ~ user.id) }}">
+                                    <button class="admin-link-button" type="submit">
+                                        {{ 'ROLE_ADMIN' in user.roles ? 'Remove admin' : 'Make admin' }}
+                                    </button>
+                                </form>
+                            {% else %}
+                                <span class="admin-current-user">You</span>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <p class="admin-muted">No users yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </section>
+</main>
 {% endblock %}
