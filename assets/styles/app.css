@@ -1817,6 +1817,13 @@ footer {
     background: rgba(255, 255, 255, 0.05);
 }
 
+.fMail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
 .fInput {
     padding: 12px 16px;
     background: rgba(255, 255, 255, 0.1);
@@ -1865,6 +1872,87 @@ footer {
 .fIcon:hover {
     filter: brightness(1.2);
     transform: translateY(-3px);
+}
+
+.footerAlert {
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+}
+
+.footerAlertSuccess {
+    background: rgba(34, 197, 94, 0.18);
+    color: #bbf7d0;
+}
+
+.footerAlertError {
+    background: rgba(239, 68, 68, 0.18);
+    color: #fecaca;
+}
+
+.infoPage {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 24px;
+    background:
+        linear-gradient(135deg, rgba(102, 126, 234, 0.18), rgba(245, 87, 108, 0.16)),
+        url("https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop") center/cover no-repeat;
+}
+
+.infoPanel {
+    width: min(760px, 100%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 24px;
+    background: rgba(17, 24, 39, 0.76);
+    color: #fff;
+    padding: 42px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(22px);
+}
+
+.infoBack {
+    display: inline-flex;
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 800;
+    margin-bottom: 24px;
+}
+
+.infoBack:hover {
+    color: #fff;
+}
+
+.infoKicker {
+    margin: 0 0 8px;
+    color: #a5b4fc;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.infoPanel h1 {
+    margin: 0 0 18px;
+    font-size: 44px;
+    line-height: 1.15;
+    font-weight: 900;
+}
+
+.infoBody {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.infoActions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 28px;
 }
 
 /* Product Page Layout */
