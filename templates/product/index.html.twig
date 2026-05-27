@@ -47,17 +47,18 @@
             data-product-title="Air Force"
             data-product-price="175"
             data-product-image="{{ asset('images/air.png') }}"
-            data-color-1="black"
-            data-color-2="darkblue"
+            data-color-1="white"
+            data-color-2="black"
             data-cart-token="{{ sliderProducts[0] is defined ? csrf_token('cart_add' ~ sliderProducts[0].id) : '' }}"
         >
             <img src="{{ asset('images/air.png') }}" alt="Air Force" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">AIR FORCE<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$175</h2>
+            <h2 class="sliderPrice">175 DT</h2>
             {% if sliderProducts[0] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[0].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[0].id) }}">
+                    <input type="hidden" name="return_to" value="{{ app.request.uri }}#catalog">
                     <button
                         class="buyButton js-add-to-cart"
                         type="submit"
@@ -84,10 +85,11 @@
             <img src="{{ asset('images/jordan.png') }}" alt="Air Jordan" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">AIR JORDAN<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$149</h2>
+            <h2 class="sliderPrice">149 DT</h2>
             {% if sliderProducts[1] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[1].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[1].id) }}">
+                    <input type="hidden" name="return_to" value="{{ app.request.uri }}#catalog">
                     <button
                         class="buyButton js-add-to-cart"
                         type="submit"
@@ -114,10 +116,11 @@
             <img src="{{ asset('images/blazer.png') }}" alt="Blazer" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">BLAZER<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$119</h2>
+            <h2 class="sliderPrice">119 DT</h2>
             {% if sliderProducts[2] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[2].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[2].id) }}">
+                    <input type="hidden" name="return_to" value="{{ app.request.uri }}#catalog">
                     <button
                         class="buyButton js-add-to-cart"
                         type="submit"
@@ -144,10 +147,11 @@
             <img src="{{ asset('images/crater.png') }}" alt="Crater" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">CRATER<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$109</h2>
+            <h2 class="sliderPrice">109 DT</h2>
             {% if sliderProducts[3] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[3].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[3].id) }}">
+                    <input type="hidden" name="return_to" value="{{ app.request.uri }}#catalog">
                     <button
                         class="buyButton js-add-to-cart"
                         type="submit"
@@ -174,10 +178,11 @@
             <img src="{{ asset('images/hippie.png') }}" alt="Hippie" class="sliderImg">
             <div class="sliderBg"></div>
             <h1 class="sliderTitle">HIPPIE<br>NEW<br>SEASON</h1>
-            <h2 class="sliderPrice">$200</h2>
+            <h2 class="sliderPrice">200 DT</h2>
             {% if sliderProducts[4] is defined %}
                 <form method="post" action="{{ path('app_cart_add', {id: sliderProducts[4].id}) }}" class="sliderBuyForm">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[4].id) }}">
+                    <input type="hidden" name="return_to" value="{{ app.request.uri }}#catalog">
                     <button
                         class="buyButton js-add-to-cart"
                         type="submit"
@@ -220,17 +225,45 @@
 <section class="catalog" id="catalog">
     <div class="catalogHeader">
         <h2 class="catalogTitle">Shop All</h2>
-        <form method="get" class="catalogFilter">
-            <label class="catalogLabel" for="category">Category</label>
-            <select id="category" name="category" class="catalogSelect" onchange="this.form.submit()">
-                <option value="" {% if not selectedCategory %}selected{% endif %}>All categories</option>
-                {% for category in categories %}
-                    <option value="{{ category.id }}" {% if selectedCategory and selectedCategory.id == category.id %}selected{% endif %}>
-                        {{ category.name }}
-                    </option>
-                {% endfor %}
-            </select>
+        <form method="get" class="catalogFilter" action="{{ path('app_products') }}#catalog">
+            <div class="catalogFilterGroup">
+                <label class="catalogLabel" for="category">Sneaker type</label>
+                <select id="category" name="category" class="catalogSelect" onchange="this.form.submit()">
+                    <option value="" {% if not selectedCategory %}selected{% endif %}>All types</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if selectedCategory and selectedCategory.id == category.id %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="catalogFilterGroup">
+                <label class="catalogLabel" for="price">Price range</label>
+                <select id="price" name="price" class="catalogSelect" onchange="this.form.submit()">
+                    <option value="" {% if priceRange == '' %}selected{% endif %}>All prices</option>
+                    <option value="0-120" {% if priceRange == '0-120' %}selected{% endif %}>Under 120 DT</option>
+                    <option value="120-160" {% if priceRange == '120-160' %}selected{% endif %}>120 - 160 DT</option>
+                    <option value="160-200" {% if priceRange == '160-200' %}selected{% endif %}>160 - 200 DT</option>
+                    <option value="200+" {% if priceRange == '200+' %}selected{% endif %}>200+ DT</option>
+                </select>
+            </div>
         </form>
+    </div>
+    <div class="catalogChips">
+        <a
+            href="{{ path('app_products', {price: priceRange}) }}#catalog"
+            class="catalogChip {% if not selectedCategory %}is-active{% endif %}"
+        >
+            All
+        </a>
+        {% for category in categories %}
+            <a
+                href="{{ path('app_products', {category: category.id, price: priceRange}) }}#catalog"
+                class="catalogChip {% if selectedCategory and selectedCategory.id == category.id %}is-active{% endif %}"
+            >
+                {{ category.name }}
+            </a>
+        {% endfor %}
     </div>
 
     <div class="catalogGrid">
@@ -251,12 +284,13 @@
                     {% endif %}
                     <p class="productCopy">{{ product.description|slice(0, 90) }}...</p>
                     <div class="productMeta">
-                        <span class="productCardPrice">${{ product.price }}</span>
+                        <span class="productCardPrice">{{ product.price }} DT</span>
                     </div>
                     <div class="productActions">
                         <a href="{{ path('app_product_show', {id: product.id}) }}" class="buttonOutline">View</a>
                         <form method="post" action="{{ path('app_cart_add', {id: product.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ product.id) }}">
+                            <input type="hidden" name="return_to" value="{{ app.request.uri }}#catalog">
                             <button type="submit" class="buttonPrimary">Add to cart</button>
                         </form>
                     </div>
@@ -272,7 +306,7 @@
     <img src="{{ asset('images/air.png') }}" alt="Air Force" class="productImg">
     <div class="productDetails">
         <h1 class="productTitle">AIR FORCE</h1>
-        <h2 class="productPrice">$199</h2>
+        <h2 class="productPrice">199 DT</h2>
         <p class="productDesc">Classic basketball silhouette reimagined for modern streets.</p>
         <div class="colors">
             <div class="color"></div>
@@ -291,6 +325,7 @@
                 data-action-template="{{ path('app_cart_add', {id: 0}) }}"
             >
                 <input type="hidden" name="_token" value="{{ csrf_token('cart_add' ~ sliderProducts[0].id) }}">
+                <input type="hidden" name="return_to" value="{{ app.request.uri }}#catalog">
                 <button
                     class="productButton js-add-to-cart"
                     type="submit"
@@ -338,56 +373,5 @@
     </div>
 </div>
 
-<footer>
-    <div class="footerLeft">
-        <div class="footerMenu">
-            <h1 class="fMenuTitle">About Us</h1>
-            <ul class="fList">
-                <li class="fListItem">Company</li>
-                <li class="fListItem">Contact</li>
-                <li class="fListItem">Careers</li>
-                <li class="fListItem">Affiliates</li>
-                <li class="fListItem">Stores</li>
-            </ul>
-        </div>
-        <div class="footerMenu">
-            <h1 class="fMenuTitle">Useful Links</h1>
-            <ul class="fList">
-                <li class="fListItem">Support</li>
-                <li class="fListItem">Refund</li>
-                <li class="fListItem">FAQ</li>
-                <li class="fListItem">Feedback</li>
-                <li class="fListItem">Stories</li>
-            </ul>
-        </div>
-        <div class="footerMenu">
-            <h1 class="fMenuTitle">Products</h1>
-            <ul class="fList">
-                <li class="fListItem">Air Force</li>
-                <li class="fListItem">Air Jordan</li>
-                <li class="fListItem">Blazer</li>
-                <li class="fListItem">Crater</li>
-                <li class="fListItem">Hippie</li>
-            </ul>
-        </div>
-    </div>
-    <div class="footerRight">
-        <div class="footerRightMenu">
-            <h1 class="fMenuTitle">Subscribe to our newsletter</h1>
-            <div class="fMail">
-                <input type="text" placeholder="your@email.com" class="fInput">
-                <button class="fButton" type="button">Join!</button>
-            </div>
-        </div>
-        <div class="footerRightMenu">
-            <h1 class="fMenuTitle">Follow Us</h1>
-            <div class="fIcons">
-                <img src="{{ asset('images/facebook.png') }}" alt="Facebook" class="fIcon">
-                <img src="{{ asset('images/twitter.png') }}" alt="Twitter" class="fIcon">
-                <img src="{{ asset('images/instagram.png') }}" alt="Instagram" class="fIcon">
-                <img src="{{ asset('images/whatsapp.png') }}" alt="WhatsApp" class="fIcon">
-            </div>
-        </div>
-    </div>
-</footer>
+{% include '_footer.html.twig' %}
 {% endblock %}

@@ -20,21 +20,30 @@ class ProductRepository extends ServiceEntityRepository
     /**
      * @return Product[]
      */
-    public function findByCategory(?Category $category): array
+    public function findByFilters(?Category $category, ?float $minPrice, ?float $maxPrice): array
     {
-        if ($category === null) {
-            return $this->createQueryBuilder('p')
-                ->orderBy('p.id', 'ASC')
-                ->getQuery()
-                ->getResult();
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC');
+
+        if ($category !== null) {
+            $queryBuilder
+                ->andWhere('p.category = :category')
+                ->setParameter('category', $category);
         }
 
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.category = :category')
-            ->setParameter('category', $category)
-            ->orderBy('p.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+        if ($minPrice !== null) {
+            $queryBuilder
+                ->andWhere('p.price >= :minPrice')
+                ->setParameter('minPrice', $minPrice);
+        }
+
+        if ($maxPrice !== null) {
+            $queryBuilder
+                ->andWhere('p.price <= :maxPrice')
+                ->setParameter('maxPrice', $maxPrice);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     //    /**

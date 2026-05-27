@@ -49,52 +49,80 @@
     {% if items is empty %}
         <div class="cart-empty">Your cart is empty. Start shopping to add items!</div>
     {% else %}
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Qty</th>
-                    <th>Total</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in items %}
-                    <tr>
-                        <td>
-                            <div class="cart-product-info">
-                                {% if item.product.imageUrl %}
-                                    <img src="{{ asset(item.product.imageUrl) }}" alt="{{ item.product.name }}" class="cart-product-img">
-                                {% endif %}
-                                <div>
-                                    <div class="cart-product-name">{{ item.product.name }}</div>
-                                    {% if item.product.category %}
-                                        <div class="cart-product-category">{{ item.product.category.name }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </td>
-                        <td class="cart-price">${{ item.product.price }}</td>
-                        <td class="cart-qty">{{ item.quantity }}</td>
-                        <td class="cart-total-cell">${{ item.lineTotal|number_format(2, '.', ',') }}</td>
-                        <td>
-                            <form method="post" action="{{ path('app_cart_remove', {id: item.product.id}) }}">
-                                <input type="hidden" name="_token" value="{{ csrf_token('cart_remove' ~ item.product.id) }}">
-                                <button type="submit" class="cart-remove-btn">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="cart-layout">
+            <div class="cart-items">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>
+                                    <div class="cart-product-info">
+                                        {% if item.product.imageUrl %}
+                                            <img src="{{ asset(item.product.imageUrl) }}" alt="{{ item.product.name }}" class="cart-product-img">
+                                        {% endif %}
+                                        <div>
+                                            <div class="cart-product-name">{{ item.product.name }}</div>
+                                            {% if item.product.category %}
+                                                <div class="cart-product-category">{{ item.product.category.name }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="cart-price">{{ item.product.price }} DT</td>
+                                <td class="cart-qty">{{ item.quantity }}</td>
+                                <td class="cart-total-cell">{{ item.lineTotal|number_format(2, '.', ',') }} DT</td>
+                                <td>
+                                    <form method="post" action="{{ path('app_cart_remove', {id: item.product.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('cart_remove' ~ item.product.id) }}">
+                                        <button type="submit" class="cart-remove-btn">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-        <div class="cart-footer">
-            <form method="post" action="{{ path('app_cart_clear') }}">
-                <input type="hidden" name="_token" value="{{ csrf_token('cart_clear') }}">
-                <button type="submit" class="cart-clear-btn">Clear cart</button>
-            </form>
-            <div class="cart-summary">
+                <form method="post" action="{{ path('app_cart_clear') }}" class="cart-clear-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_clear') }}">
+                    <button type="submit" class="cart-clear-btn">Clear cart</button>
+                </form>
+            </div>
+
+            <aside class="cart-summary">
+                <form method="post" action="{{ path('app_cart_payment_method') }}" class="payment-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cart_payment_method') }}">
+                    <div class="payment-title">Payment method</div>
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="cash" {% if paymentMethod == 'cash' %}checked{% endif %}>
+                        <span class="payment-icon payment-icon-cash" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                <circle cx="12" cy="12" r="9" fill="currentColor"></circle>
+                                <path fill="#fff" d="M12.75 7.5h-1.5v.92c-1.36.2-2.38 1.04-2.38 2.3 0 1.55 1.44 2.18 3 2.18.96 0 1.54.32 1.54.7 0 .43-.6.68-1.58.68-.84 0-1.62-.24-2.28-.66l-.7 1.28c.7.45 1.6.72 2.4.8V16.5h1.5v-.92c1.36-.2 2.38-1.04 2.38-2.3 0-1.55-1.44-2.18-3-2.18-.96 0-1.54-.32-1.54-.7 0-.43.6-.68 1.58-.68.7 0 1.36.18 1.98.5l.62-1.24c-.6-.32-1.3-.52-2.02-.58V7.5z"/>
+                                <circle cx="12" cy="12" r="8" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="0.6"></circle>
+                            </svg>
+                        </span>
+                        <span>Cash on delivery</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="card" {% if paymentMethod == 'card' %}checked{% endif %}>
+                        <span class="payment-icon payment-icon-card" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                <path fill="currentColor" d="M3 5h18a2 2 0 0 1 2 2v2H1V7a2 2 0 0 1 2-2zm-2 6h22v6a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-6zm4 3h6v2H5v-2z"/>
+                            </svg>
+                        </span>
+                        <span>Credit card</span>
+                    </label>
+                    <button type="submit" class="payment-save-btn">Save</button>
+                </form>
                 <form method="post" action="{{ path('app_cart_promo') }}" class="promo-form">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_promo') }}">
                     <input type="text" name="promo_code" placeholder="Promo code" class="promo-input" value="{{ promoCode ?: '' }}">
@@ -109,71 +137,20 @@
                 <div class="cart-totals">
                     <div class="cart-total-row">
                         <span>Subtotal</span>
-                        <span>${{ total|number_format(2, '.', ',') }}</span>
+                        <span>{{ total|number_format(2, '.', ',') }} DT</span>
                     </div>
                     {% if discount > 0 %}
                         <div class="cart-total-row">
                             <span>Discount</span>
-                            <span>-${{ discount|number_format(2, '.', ',') }}</span>
+                            <span>-{{ discount|number_format(2, '.', ',') }} DT</span>
                         </div>
                     {% endif %}
-                    <div class="cart-total-row cart-grand-total">Total: ${{ grandTotal|number_format(2, '.', ',') }}</div>
+                    <div class="cart-total-row cart-grand-total">Total: {{ grandTotal|number_format(2, '.', ',') }} DT</div>
                 </div>
-            </div>
+            </aside>
         </div>
     {% endif %}
 </div>
 
-<footer>
-    <div class="footerLeft">
-        <div class="footerMenu">
-            <h1 class="fMenuTitle">About Us</h1>
-            <ul class="fList">
-                <li class="fListItem">Company</li>
-                <li class="fListItem">Contact</li>
-                <li class="fListItem">Careers</li>
-                <li class="fListItem">Affiliates</li>
-                <li class="fListItem">Stores</li>
-            </ul>
-        </div>
-        <div class="footerMenu">
-            <h1 class="fMenuTitle">Useful Links</h1>
-            <ul class="fList">
-                <li class="fListItem">Support</li>
-                <li class="fListItem">Refund</li>
-                <li class="fListItem">FAQ</li>
-                <li class="fListItem">Feedback</li>
-                <li class="fListItem">Stories</li>
-            </ul>
-        </div>
-        <div class="footerMenu">
-            <h1 class="fMenuTitle">Products</h1>
-            <ul class="fList">
-                <li class="fListItem">Air Force</li>
-                <li class="fListItem">Air Jordan</li>
-                <li class="fListItem">Blazer</li>
-                <li class="fListItem">Crater</li>
-                <li class="fListItem">Hippie</li>
-            </ul>
-        </div>
-    </div>
-    <div class="footerRight">
-        <div class="footerRightMenu">
-            <h1 class="fMenuTitle">Subscribe to our newsletter</h1>
-            <div class="fMail">
-                <input type="text" placeholder="your@email.com" class="fInput">
-                <button class="fButton" type="button">Join!</button>
-            </div>
-        </div>
-        <div class="footerRightMenu">
-            <h1 class="fMenuTitle">Follow Us</h1>
-            <div class="fIcons">
-                <img src="{{ asset('images/facebook.png') }}" alt="Facebook" class="fIcon">
-                <img src="{{ asset('images/twitter.png') }}" alt="Twitter" class="fIcon">
-                <img src="{{ asset('images/instagram.png') }}" alt="Instagram" class="fIcon">
-                <img src="{{ asset('images/whatsapp.png') }}" alt="WhatsApp" class="fIcon">
-            </div>
-        </div>
-    </div>
-</footer>
+{% include '_footer.html.twig' %}
 {% endblock %}

@@ -19,6 +19,7 @@ class CartController extends AbstractController
     public function index(SessionInterface $session, ProductRepository $productRepository): Response
     {
         $cart = $session->get('cart', []);
+        $paymentMethod = $session->get('payment_method', 'cash');
         $items = [];
         $total = 0.0;
 
@@ -60,6 +61,7 @@ class CartController extends AbstractController
             'promoCode' => $promoApplied ? self::PROMO_CODE : null,
             'discount' => $discount,
             'grandTotal' => $grandTotal,
+            'paymentMethod' => $paymentMethod,
         ]);
     }
 
@@ -80,7 +82,15 @@ class CartController extends AbstractController
 
         $this->addFlash('cart_success', 'Ajoute au panier.');
 
+        $returnTo = (string) $request->request->get('return_to', '');
         $referer = $request->headers->get('referer');
+        $host = $request->getSchemeAndHttpHost();
+
+        if ($returnTo !== '') {
+            if (str_starts_with($returnTo, '/') || str_starts_with($returnTo, $host)) {
+                return $this->redirect($returnTo);
+            }
+        }
 
         return $this->redirect($referer ?? $this->generateUrl('app_cart_index'));
     }
@@ -112,6 +122,31 @@ class CartController extends AbstractController
 
         $session->remove('cart');
         $session->remove('promo_code');
+        $session->remove('payment_method');
+
+        return $this->redirectToRoute('app_cart_index');
+    }
+
+    #[Route('/cart/payment-method', name: 'app_cart_payment_method', methods: ['POST'])]
+    public function setPaymentMethod(Request $request, SessionInterface $session): Response
+    {
+        if (!$this->isCsrfTokenValid('cart_payment_method', (string) $request->request->get('_token'))) {
+            $this->addFlash('cart_error', 'Action refusee.');
+
+            return $this->redirectToRoute('app_cart_index');
+        }
+
+        $method = (string) $request->request->get('payment_method');
+        $allowed = ['cash', 'card'];
+
+        if (!in_array($method, $allowed, true)) {
+            $this->addFlash('cart_error', 'Mode de paiement invalide.');
+
+            return $this->redirectToRoute('app_cart_index');
+        }
+
+        $session->set('payment_method', $method);
+        $this->addFlash('cart_success', 'Mode de paiement mis a jour.');
 
         return $this->redirectToRoute('app_cart_index');
     }

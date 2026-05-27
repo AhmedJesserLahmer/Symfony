@@ -1,0 +1,66 @@
+<footer>
+    <div class="footerLeft">
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">About Us</h1>
+            <ul class="fList">
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'company'}) }}">Company</a></li>
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'contact'}) }}">Contact</a></li>
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'careers'}) }}">Careers</a></li>
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'affiliates'}) }}">Affiliates</a></li>
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'stores'}) }}">Stores</a></li>
+            </ul>
+        </div>
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">Useful Links</h1>
+            <ul class="fList">
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'support'}) }}">Support</a></li>
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'refund'}) }}">Refund</a></li>
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'faq'}) }}">FAQ</a></li>
+                <li class="fListItem"><a href="{{ path('app_feedback') }}">Feedback</a></li>
+                <li class="fListItem"><a href="{{ path('app_info_page', {slug: 'stories'}) }}">Stories</a></li>
+            </ul>
+        </div>
+        <div class="footerMenu">
+            <h1 class="fMenuTitle">Products</h1>
+            <ul class="fList">
+                <li class="fListItem"><a href="{{ path('app_product_go', {name: 'Air-Force'}) }}">Air Force</a></li>
+                <li class="fListItem"><a href="{{ path('app_product_go', {name: 'Air-Jordan'}) }}">Air Jordan</a></li>
+                <li class="fListItem"><a href="{{ path('app_product_go', {name: 'Blazer'}) }}">Blazer</a></li>
+                <li class="fListItem"><a href="{{ path('app_product_go', {name: 'Crater'}) }}">Crater</a></li>
+                <li class="fListItem"><a href="{{ path('app_product_go', {name: 'Hippie'}) }}">Hippie</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footerRight">
+        <div class="footerRightMenu">
+            <h1 class="fMenuTitle">Subscribe to our newsletter</h1>
+            {% for message in app.flashes('footer_success') %}
+                <div class="footerAlert footerAlertSuccess">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('footer_error') %}
+                <div class="footerAlert footerAlertError">{{ message }}</div>
+            {% endfor %}
+            <form method="post" action="{{ path('app_newsletter_join') }}" class="fMail">
+                <input type="email" name="email" placeholder="your@email.com" class="fInput" required>
+                <button class="fButton" type="submit">Join!</button>
+            </form>
+        </div>
+        <div class="footerRightMenu">
+            <h1 class="fMenuTitle">Follow Us</h1>
+            <div class="fIcons">
+                <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">
+                    <img src="{{ asset('images/facebook.png') }}" alt="Facebook" class="fIcon">
+                </a>
+                <a href="https://twitter.com/" target="_blank" rel="noopener" aria-label="Twitter">
+                    <img src="{{ asset('images/twitter.png') }}" alt="Twitter" class="fIcon">
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                    <img src="{{ asset('images/instagram.png') }}" alt="Instagram" class="fIcon">
+                </a>
+                <a href="https://www.whatsapp.com/" target="_blank" rel="noopener" aria-label="WhatsApp">
+                    <img src="{{ asset('images/whatsapp.png') }}" alt="WhatsApp" class="fIcon">
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
